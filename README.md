@@ -1,20 +1,20 @@
 # Crypto Tracker
 
-Приложение для отслеживания цен на криптовалюты в режиме реального времени, созданное с использованием **Vue 3 + TypeScript + Vite**.
-Приложение извлекает текущие данные из **API Cryptocompare** и предоставляет интерактивный интерфейс для мониторинга цен на криптовалюты, рыночной капитализации и трендов.
+A real-time cryptocurrency price tracking application created using **Vue 3 + TypeScript + Vite**.
+The application extracts current data from the **Cryptocompare API** and provides an interactive interface for monitoring cryptocurrency prices, market capitalization, and trends.
 
-## Особенности
+## Features
 
--  Многостраничный сайт.
--  Обновление цен в режиме реального времени.
--  Интерактивные ценовые графики с различными временными интервалами (1 час, 24 часа, 7 дней, 30 дней).
--  Адаптивный дизайн.
--  Обзор рынка с указанием общей рыночной капитализации.
--  Отслеживание наиболее прибыльных и убыточных валют.
--  Личный кабинет.
--  Форма регистрации/входа.
+- Multi-page website
+- Real-time price updates
+- Interactive price charts with different time intervals (1 hour, 24 hours, 7 days, 30 days)
+- Adaptive design
+- A market overview indicating the total market capitalization
+- Tracking the most profitable and unprofitable currencies
+- Personal account
+- Registration/entry form
 
-## Используемые технологии
+## Technologies Used
 
 -  Vue 3
 -  TypeScript
@@ -28,7 +28,11 @@
 -  Vue-chartjs
 -  Simple-datatables
 
-## Структура проекта
+## Live Demo
+
+Check out the live demo: [Crypto Tracker](https://olga-zyukina.github.io/crypto-tracker-vue3-vite/dist/)
+
+## Project Structure
 
 ```
 src/
@@ -40,25 +44,25 @@ src/
 └── App.vue         # Корневой компонент
 ```
 
-## Подробные характеристики
+## Features in Detail
 
-### Обновление цен в режиме реального времени
--  Автоматическое обновление цен каждые 10 секунд.
+### Real-time price updates
+- Automatic price updates every 10 seconds.
 
-### Интерактивные графики
--  Графики цен с различными временными интервалами;
--  Плавная анимация;
--  Адаптивный дизайн;
--  Всплывающие подсказки.
+### Interactive graphics
+- Price charts with different time intervals;
+- Smooth animation;
+- Adaptive design;
+- Tooltips.
 
-### Обзор рынка
--  Общая рыночная капитализация;
--  Топ валют по росту/падению цен;
--  Статистика по отдельным валютам.
+### Market Overview
+- Total market capitalization;
+- Top currencies by price rise/fall;
+- Statistics on individual currencies.
 
-### Пользовательский интерфейс
--  Чистый и современный дизайн;
--  Адаптивный макет для всех размеров экрана;
--  Плавные переходы и анимация.
+### User Interface
+- Clean and modern design;
+- Adaptive layout for all screen sizes;
+- Smooth transitions and animations.
 
 <div><img src="https://github.com/Olga-Zyukina/crypto-tracker-vue3-vite/blob/master/Screenshot.png" title="crypto-tracker-vue3-vite" alt="crypto-tracker-vue3-vite"/></div>
