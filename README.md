@@ -36,12 +36,12 @@ Check out the live demo: [Crypto Tracker](https://olga-zyukina.github.io/crypto-
 
 ```
 src/
-├── components/     # Компоненты
-├── pages/          # Страницы
-├── types/          # Типы TypeScript
-├── services/       # Функции
-├── assets/         # Cтатические файлы
-└── App.vue         # Корневой компонент
+├── components/     # Vue components
+├── pages/          # Vue pages
+├── types/          # TypeScript type definitions
+├── services/       # Functions
+├── assets/         # Static assets
+└── App.vue         # Root component
 ```
 
 ## Features in Detail
