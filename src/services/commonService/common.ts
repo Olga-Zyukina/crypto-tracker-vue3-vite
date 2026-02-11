@@ -10,6 +10,13 @@ export const commonFunction = () => {
     };
     window.addEventListener("load", toggleBacktotop);
     document.addEventListener("scroll", toggleBacktotop);
+    backtotop.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    });
   }
 
   let sidebarstn = document.querySelector(".toggle-sidebar-btn");
