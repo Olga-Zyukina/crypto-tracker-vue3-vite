@@ -29,7 +29,11 @@ ChartJS.register(
 );
 
 let intervalRefresh: any;
-const $props = defineProps(["id"]);
+// const $props = defineProps(["id"]);
+const $props = defineProps({
+  id: { type: String, default: "BTC" },
+  home: { type: Boolean, default: false }
+});
 const chartData = ref<any>(null);
 const error = ref<string | null>(null);
 const loading = ref(true);
@@ -143,6 +147,7 @@ const fetchChartData = async () => {
     error.value = null;
     const url = getUrl(selectedInterval.value);
     const limit = getLimit(selectedInterval.value);
+
     const response = await axios.get(
       url,
       {
@@ -217,11 +222,13 @@ const startFetching = () => {
     clearInterval(intervalRefresh);
   }
   fetchChartData();
-  startInterval();
+  if ($props.home == false) {
+    startInterval();
+  }
 };
 
 watch(() => [selectedInterval.value, $props.id], () => {
-  fetchChartData();
+  startFetching();
 });
 
 onMounted(startFetching);

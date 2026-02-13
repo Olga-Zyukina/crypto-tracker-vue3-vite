@@ -7,7 +7,6 @@ export const useRootStore = defineStore("root", () => {
   const news: any = ref([]);
   const error: any = ref(null);
   const symbolFullData: any = ref([]);
-  let interval: any;
 
   async function getNews() {
     const data: any = await commonService.getNews();
@@ -26,18 +25,6 @@ export const useRootStore = defineStore("root", () => {
       symbolFullData.value = data;
     }
   }
-
-  const startInterval = async () => {
-    if (interval) {
-      clearInterval(interval);
-    }
-    interval = setInterval(() => {
-      getNews();
-      getSymbolFullData();
-    }, API_CONFIG.REFRESH_INTERVAL);
-  };
-
-  startInterval();
 
   return { news, error, symbolFullData, getNews, getSymbolFullData };
 });

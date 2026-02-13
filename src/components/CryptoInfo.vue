@@ -354,7 +354,7 @@ onMounted(() => {
           <!-- End Top Losers (24h) -->
 
           <!-- PriceReports (24h) -->
-          <PriceChart id="BTC" />
+          <PriceChart id="BTC" :home=true />
           <!-- End Reports (24h) -->
 
           <!-- Top Market Cap -->
