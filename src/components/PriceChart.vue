@@ -29,7 +29,6 @@ ChartJS.register(
 );
 
 let intervalRefresh: any;
-// const $props = defineProps(["id"]);
 const $props = defineProps({
   id: { type: String, default: "BTC" },
   home: { type: Boolean, default: false }

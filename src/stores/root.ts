@@ -1,6 +1,5 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
-import { API_CONFIG } from "../constants/config";
 import { commonService } from "../services";
 
 export const useRootStore = defineStore("root", () => {

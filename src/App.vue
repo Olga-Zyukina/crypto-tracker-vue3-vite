@@ -2,6 +2,7 @@
 import { onMounted } from 'vue';
 import { RouterView } from "vue-router";
 import { useRootStore } from './stores/root';
+import { API_CONFIG } from './constants/config';
 
 const rootStore = useRootStore();
 let interval: any;
@@ -13,7 +14,7 @@ const startInterval = async () => {
   interval = setInterval(() => {
     rootStore.getNews();
     rootStore.getSymbolFullData();
-  }, 10000);
+  }, API_CONFIG.REFRESH_INTERVAL);
 };
 
 startInterval();
