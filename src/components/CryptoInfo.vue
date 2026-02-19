@@ -5,6 +5,7 @@ import { useRootStore } from "../stores/root";
 import { BASE_URL } from "../constants/api";
 import { CRYPTO_INFO } from "../constants/utils";
 import type { CryptoData } from "../types/crypto";
+import type { TableData } from "../types/table";
 
 import PriceChart from "./PriceChart.vue";
 import RightSide from "./RightSide.vue";
@@ -18,7 +19,16 @@ const symbolFullData = computed(() => rootStore.symbolFullData);
 const loading = ref(true);
 const cryptoList = ref<CryptoData[] | any>([]);
 const lastUpdateTime = ref<Date | null>(null);
-let tableData: any = {};
+const tableData: TableData | any = {
+    headings: [
+      "Id",
+      "Name",
+      "Cap",
+      "Price",
+      "Price change 24h"
+    ],
+    data: []
+  };
 
 const totalMarketCap = computed(() => {
   return cryptoList.value.reduce(
@@ -141,33 +151,26 @@ const fetchCryptoData = async () => {
   }
 };
 
-const getTableData = async () => {
-  tableData = {
-    headings: [
-      "Id",
-      "Name",
-      "Cap",
-      "Price",
-      "Price change 24h"
-    ],
-    data: []
-  };
-// get data for table
-  for (let i = 0; i < cryptoList.value.length; i++) {
-    tableData.data[i] = [];
-    for (let p of ["id", "name", "market_cap", "current_price", "price_change_percentage_24h"]) {
-      if (cryptoList.value[i].hasOwnProperty(p)) {
-        if (p === "price_change_percentage_24h") {
-          tableData.data[i].push(cryptoList.value[i][p].toFixed(2));
+const getTableData = () => {
+  if (cryptoList.value.length > 1) {
+    for (let i = 0; i < cryptoList.value.length; i++) {
+      tableData.data[i] = [];
+      for (let p of ["id", "name", "market_cap", "current_price", "price_change_percentage_24h"]) {
+        if (cryptoList.value[i].hasOwnProperty(p)) {
+          if (p === "price_change_percentage_24h") {
+            tableData.data[i].push(cryptoList.value[i][p].toFixed(2));
+          } else {
+            tableData.data[i].push(cryptoList.value[i][p]);
+          }
         } else {
-          tableData.data[i].push(cryptoList.value[i][p]);
+          tableData.data[i].push('');
         }
-      } else {
-        tableData.data[i].push('');
       }
     }
-  };
-// remove and create table
+  }
+};
+
+const createTable = () => {
   if (document.querySelector(".cap-title")) {
     let capTitle: any = document.querySelector(".cap-title");
     let datatableWrapper: any = document.querySelector(".datatable-wrapper");
@@ -179,6 +182,11 @@ const getTableData = async () => {
     capTable.className += 'table table-borderless datatable';
     capTitle.after(capTable);
   }
+};
+
+const createTopMarketCapTable = async () => {
+  getTableData();
+  createTable();
   new DataTable("#datatable", {
     data: tableData,
     perPageSelect: [5, 10, 15, ["All", -1]],
@@ -241,7 +249,7 @@ const getTableData = async () => {
 
 const startFetching = async () => {
   await fetchCryptoData();
-  await getTableData();
+  await createTopMarketCapTable();
 };
 
 watch(() => [news.value, symbolFullData.value], () => {
