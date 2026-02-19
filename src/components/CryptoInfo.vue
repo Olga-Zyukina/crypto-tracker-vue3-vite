@@ -27,31 +27,6 @@ const totalMarketCap = computed(() => {
   );
 });
 
-const formatTotalMarketCap = (value: number) => {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    notation: "compact",
-    maximumFractionDigits: 2,
-  }).format(value);
-};
-
-const formatMarketCap = (value: number) => {
-  return new Intl.NumberFormat("ru", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(value);
-};
-
-const formatPrice = (value: number) => {
-  return new Intl.NumberFormat("ru", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 2,
-  }).format(value);
-};
-
 const topGainers = computed(() => {
   return [...cryptoList.value]
     .sort(
@@ -82,6 +57,23 @@ const topPrice = computed(() => {
     .slice(0, 10);
 });
 
+const formatTotalMarketCap = (value: number) => {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    notation: "compact",
+    maximumFractionDigits: 2,
+  }).format(value);
+};
+
+const formatMarketCap = (value: number) => {
+  return new Intl.NumberFormat("ru", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  }).format(value);
+};
+
 const formatLastUpdate = () => {
   if (!lastUpdateTime.value) return '';
   return new Intl.DateTimeFormat('default', {
@@ -89,6 +81,14 @@ const formatLastUpdate = () => {
     minute: '2-digit',
     second: '2-digit'
   }).format(lastUpdateTime.value);
+};
+
+const formatPrice = (value: number) => {
+  return new Intl.NumberFormat("ru", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 2,
+  }).format(value);
 };
 
 const transformData = async (): Promise<CryptoData[]> => {
@@ -135,7 +135,6 @@ const fetchCryptoData = async () => {
     loading.value = true;
     cryptoList.value = await transformData();
     lastUpdateTime.value = new Date();
-    getTableData();
     loading.value = false;
   } catch (e) {
     throw new Error("No news data available");
@@ -240,9 +239,9 @@ const getTableData = async () => {
   });
 };
 
-const startFetching = () => {
-  fetchCryptoData();
-  setTimeout(getTableData, 10);
+const startFetching = async () => {
+  await fetchCryptoData();
+  await getTableData();
 };
 
 watch(() => [news.value, symbolFullData.value], () => {

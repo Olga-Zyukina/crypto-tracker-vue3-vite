@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, onUnmounted, watch } from "vue";
-
 import axios from "axios";
 import { API_CONFIG } from '../constants/config';
 import { URL_SINGLE_SYMBOL_HISTORY_DAY, URL_SINGLE_SYMBOL_HISTORY_HOUR, URL_SINGLE_SYMBOL_HISTORY_MINUTE } from "../constants/api";
@@ -36,7 +35,6 @@ const $props = defineProps({
 const chartData = ref<any>(null);
 const error = ref<string | null>(null);
 const loading = ref(true);
-
 const selectedInterval = ref<string>("1d");
 const interval = ref<any>('24H');
 
@@ -216,11 +214,12 @@ const startInterval = async () => {
   intervalRefresh = setInterval(fetchChartData, API_CONFIG.REFRESH_INTERVAL);
 };
 
-const startFetching = () => {
+const startFetching = async () => {
   if (intervalRefresh) {
     clearInterval(intervalRefresh);
   }
-  fetchChartData();
+  await fetchChartData();
+  
   if ($props.home == false) {
     startInterval();
   }
