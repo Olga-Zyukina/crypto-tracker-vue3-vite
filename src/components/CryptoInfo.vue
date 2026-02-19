@@ -366,9 +366,6 @@ onMounted(() => {
 
           <!-- Top Market Cap -->
           <div class="col-12">
-            <!-- <div v-if="error" class="danger">
-              <p v-if="error && error.symbolFullData">{{ error.symbolFullData }}</p>
-            </div> -->
             <!-- End Error States -->
             <div class="card top-market-cap overflow-auto">
               <div class="card-body">
@@ -397,14 +394,12 @@ onMounted(() => {
                       <th scope="col">Cap</th>
                     </tr>
                   </thead>
-                  <tbody>
+                 <tbody>
                     <tr v-for="crypto in topPrice" :key="crypto.id">
                       <th scope="row">
-                        <a href="/"><img :src="crypto.image" :alt="crypto.name" /></a>
+                        <img :src="crypto.image" :alt="crypto.name" />
                       </th>
-                      <td>
-                        <a href="/">{{ crypto.name }}</a>
-                      </td>
+                      <td class="table-name">{{ crypto.name }}</td>
                       <td class="fw-bold">{{ formatPrice(crypto.current_price) }}</td>
                       <td>{{ crypto.price_change_percentage_24h.toFixed(2) }}%</td>
                       <td>{{ formatMarketCap(crypto.market_cap) }}</td>
@@ -443,7 +438,8 @@ onMounted(() => {
 .h-195 {
   min-height:195px;
 }
-.last-updated span {
+.last-updated span,
+.table-name {
   color: #4154f1;
 }
 </style>
