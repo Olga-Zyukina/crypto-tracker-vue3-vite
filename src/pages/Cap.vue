@@ -3,7 +3,7 @@ import { computed, onMounted, ref, watch } from "vue";
 import { useRootStore } from "../stores/root";
 import { commonService } from "../services";
 
-import type { CryptoData } from "../types/crypto";
+import type { CryptoData } from "../types/index";
 import { BASE_URL } from "../constants/api";
 import { CRYPTO_INFO } from "../constants/utils";
 import AppHeader from "../components/Header.vue";

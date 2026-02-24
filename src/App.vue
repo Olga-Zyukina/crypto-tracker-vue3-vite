@@ -5,7 +5,7 @@ import { useRootStore } from './stores/root';
 import { API_CONFIG } from './constants/config';
 
 const rootStore = useRootStore();
-let interval: any;
+let interval: number;
 
 const startInterval = async () => {
   if (interval) {

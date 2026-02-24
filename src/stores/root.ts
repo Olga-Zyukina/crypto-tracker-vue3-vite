@@ -1,14 +1,15 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
+import type { ErrorData } from "../types/index";
 import { commonService } from "../services";
 
 export const useRootStore = defineStore("root", () => {
-  const news: any = ref([]);
-  const error: any = ref(null);
-  const symbolFullData: any = ref([]);
+  const news = ref<[] | null>(null);
+  const error = ref<ErrorData |null>(null);
+  const symbolFullData = ref<[] | null>(null);
 
   async function getNews() {
-    const data: any = await commonService.getNews();
+    const data = await commonService.getNews();
     if (data.hasOwnProperty("error")) {
       error.value = data;
     } else {
@@ -17,7 +18,7 @@ export const useRootStore = defineStore("root", () => {
   }
 
   async function getSymbolFullData() {
-    const data: any = await commonService.getSymbolFullData();
+    const data = await commonService.getSymbolFullData();
     if (data.hasOwnProperty("error")) {
       error.value = data;
     } else {

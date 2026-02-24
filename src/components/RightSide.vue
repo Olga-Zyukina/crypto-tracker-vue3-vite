@@ -4,7 +4,7 @@ import { useRootStore } from "../stores/root";
 
 import { BASE_URL } from "../constants/api";
 import { CRYPTO_INFO } from "../constants/utils";
-import type { CryptoData } from "../types/crypto";
+import type { CryptoData } from "../types/index";
 
 import RadarChart from "./RadarChart.vue";
 import DoughnutChart from "./DoughnutChart.vue";

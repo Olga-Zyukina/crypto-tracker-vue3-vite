@@ -4,8 +4,7 @@ import { useRootStore } from "../stores/root";
 
 import { BASE_URL } from "../constants/api";
 import { CRYPTO_INFO } from "../constants/utils";
-import type { CryptoData } from "../types/crypto";
-import type { TableData } from "../types/table";
+import type { CryptoData, TableData } from "../types/index";
 
 import PriceChart from "./PriceChart.vue";
 import RightSide from "./RightSide.vue";
@@ -366,8 +365,11 @@ onMounted(() => {
 
           <!-- Top Market Cap -->
           <div class="col-12">
+            <div v-if="error" class="danger">
+              <p v-if="error && error.symbolFullData">{{ error.symbolFullData }}</p>
+            </div>
             <!-- End Error States -->
-            <div class="card top-market-cap overflow-auto">
+            <div v-else class="card top-market-cap overflow-auto">
               <div class="card-body">
                 <h5 class="card-title cap-title">Top Market Cap <span>| All time</span></h5>
               </div>
