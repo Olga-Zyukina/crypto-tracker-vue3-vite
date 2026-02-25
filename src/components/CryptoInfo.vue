@@ -16,22 +16,14 @@ const error = computed(() => rootStore.error);
 const symbolFullData = computed(() => rootStore.symbolFullData);
 
 const loading = ref(true);
-const cryptoList = ref<CryptoData[] | any>([]);
+const cryptoList = ref<CryptoData[] >([]);
 const lastUpdateTime = ref<Date | null>(null);
-const tableData: TableData | any = {
-    headings: [
-      "Id",
-      "Name",
-      "Cap",
-      "Price",
-      "Price change 24h"
-    ],
-    data: []
-  };
+
+const tableData: TableData = { headings: ["Id", "Name", "Cap", "Price", "Price change 24h"], data: [], }
 
 const totalMarketCap = computed(() => {
   return cryptoList.value.reduce(
-    (total: any, crypto: { market_cap: any; }) => total + (crypto.market_cap || 0),
+    (total: number, crypto: { market_cap: number; }) => total + (crypto.market_cap || 0),
     0
   );
 });
@@ -102,17 +94,7 @@ const formatPrice = (value: number) => {
 
 const transformData = async (): Promise<CryptoData[]> => {
   try {
-    const dataArray:
-      | PromiseLike<CryptoData[]>
-      | {
-          id: any;
-          symbol: any;
-          name: string;
-          image: string;
-          current_price: any;
-          market_cap: any;
-          price_change_percentage_24h: any;
-        }[] = [];
+    const dataArray: CryptoData[] = [];
     if (symbolFullData.value) {
       Object.values(symbolFullData.value).forEach((value: any) => {
         Object.values(value).forEach((val: any) => {
@@ -171,15 +153,17 @@ const getTableData = () => {
 
 const createTable = () => {
   if (document.querySelector(".cap-title")) {
-    let capTitle: any = document.querySelector(".cap-title");
-    let datatableWrapper: any = document.querySelector(".datatable-wrapper");
+    let capTitle: Element | null = document.querySelector(".cap-title");
+    let datatableWrapper: Element | null = document.querySelector(".datatable-wrapper");
     if (datatableWrapper) {
       datatableWrapper.remove();
     }
     let capTable = document.createElement("table");
     capTable.id = 'datatable';
     capTable.className += 'table table-borderless datatable';
-    capTitle.after(capTable);
+    if (capTitle) {
+      capTitle.after(capTable);
+    }
   }
 };
 

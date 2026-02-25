@@ -8,8 +8,8 @@ export interface CryptoData {
   price_change_percentage_24h: number;
 }
 export interface TableData {
-  headings: ["Id", "Name", "Cap", "Price", "Price change 24h"];
-  data: [];
+  headings: [string, string, string, string, string];
+  data: any;
 }
 export interface ErrorData {
   error: boolean;
