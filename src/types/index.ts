@@ -9,10 +9,20 @@ export interface CryptoData {
 }
 export interface TableData {
   headings: [string, string, string, string, string];
-  data: any;
+  data: [] | any;
 }
 export interface ErrorData {
   error: boolean;
   news?: string;
   symbolFullData?: string;
+}
+export interface NewsData {
+  id: string;
+  image: string;
+  title: string;
+  body: string;
+}
+export interface ChartData {
+  id: string;
+  cap: number;
 }

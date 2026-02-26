@@ -1,11 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, watch } from "vue";
 import { useRootStore } from "../stores/root";
-
-import { BASE_URL } from "../constants/api";
-import { CRYPTO_INFO } from "../constants/utils";
-import type { CryptoData, TableData } from "../types/index";
-
+import type { TableData } from "../types/index";
 import PriceChart from "./PriceChart.vue";
 import RightSide from "./RightSide.vue";
 import { DataTable } from "simple-datatables";
@@ -14,12 +10,12 @@ const rootStore = useRootStore();
 const news = computed(() => rootStore.news);
 const error = computed(() => rootStore.error);
 const symbolFullData = computed(() => rootStore.symbolFullData);
+const cryptoList = computed(() => rootStore.cryptoList);
 
-const loading = ref(true);
-const cryptoList = ref<CryptoData[] >([]);
-const lastUpdateTime = ref<Date | null>(null);
+const loading = ref< boolean >(true);
+const lastUpdateTime = ref< Date | null >(null);
 
-const tableData: TableData = { headings: ["Id", "Name", "Cap", "Price", "Price change 24h"], data: [], }
+const tableData: TableData = { headings: ["id", "name", "market_cap", "current_price", "price_change_percentage_24h"], data: [], }
 
 const totalMarketCap = computed(() => {
   return cryptoList.value.reduce(
@@ -92,41 +88,14 @@ const formatPrice = (value: number) => {
   }).format(value);
 };
 
-const transformData = async (): Promise<CryptoData[]> => {
-  try {
-    const dataArray: CryptoData[] = [];
-    if (symbolFullData.value) {
-      Object.values(symbolFullData.value).forEach((value: any) => {
-        Object.values(value).forEach((val: any) => {
-          const baseSymbol = val.FROMSYMBOL;
-          const info = CRYPTO_INFO[baseSymbol];
-          let data = {
-            id: baseSymbol,
-            symbol: baseSymbol,
-            name: info.name,
-            image: BASE_URL + val.IMAGEURL,
-            current_price: val.PRICE,
-            market_cap: val.MKTCAP,
-            price_change_percentage_24h: val.CHANGEPCT24HOUR,
-          };
-          dataArray.push(data);
-        });
-      });
-      return dataArray;
-    } else {
-      throw new Error("No price data available");
-    }
-  } catch (e) {
-    return [];
-  }
-};
-
 const fetchCryptoData = async () => {
   try {
     loading.value = true;
-    cryptoList.value = await transformData();
     lastUpdateTime.value = new Date();
-    loading.value = false;
+    if (cryptoList.value.length >= 1) {
+      loading.value = false;
+
+    }
   } catch (e) {
     throw new Error("No news data available");
   }

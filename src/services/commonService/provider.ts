@@ -29,7 +29,7 @@ export const getNews = async () => {
   }
 };
 
-export const getSymbolFullData = async () => {
+export const getCryptoData = async () => {
   try {
     const data = await axios.get(
       URL_MULTIPLE_SYMBOL_FULL_DATA, {

@@ -1,11 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
 import { useRootStore } from "../stores/root";
-
-import { BASE_URL } from "../constants/api";
-import { CRYPTO_INFO } from "../constants/utils";
-import type { CryptoData } from "../types/index";
-
+import type { NewsData, ChartData } from "../types/index";
 import RadarChart from "./RadarChart.vue";
 import DoughnutChart from "./DoughnutChart.vue";
 
@@ -13,70 +9,32 @@ const rootStore = useRootStore();
 const news = computed(() => rootStore.news);
 const error = computed(() => rootStore.error);
 const symbolFullData = computed(() => rootStore.symbolFullData);
+const cryptoList = computed(() => rootStore.cryptoList);
 
-const cryptoList = ref<CryptoData[] | any>([]);
-const newsList: any = ref([]);
-const loading = ref(true);
-const chartData = ref([]);
+const newsList = ref<NewsData[]>([]);
+const loading = ref<boolean>(true);
+const chartData = ref<ChartData[]>([]);
 
-const getChartData: any = () => {
-  if (cryptoList) {
-    chartData.value = cryptoList.value
+
+const getChartData = () => {
+  chartData.value = cryptoList.value
     .filter((item: { market_cap: number; }) => item.market_cap < 200000000000 && item.market_cap > 10000000000)
-    .map((crypto: any) => ({
+    .map((crypto) => ({
       id: crypto.id,
-      cap: crypto.market_cap / 1000000})
+      cap: crypto.market_cap / 1000000
+    })
     )
-  }
-};
-
-const transformData = async (): Promise<CryptoData[]> => {
-  try {
-    const dataArray:
-      | PromiseLike<CryptoData[]>
-      | {
-        id: any;
-        symbol: any;
-        name: string;
-        image: string;
-        current_price: any;
-        market_cap: any;
-        price_change_percentage_24h: any;
-      }[] = [];
-    if (symbolFullData.value) {
-      Object.values(symbolFullData.value).forEach((value: any) => {
-        Object.values(value).forEach((val: any) => {
-          const baseSymbol = val.FROMSYMBOL;
-          const info = CRYPTO_INFO[baseSymbol];
-          let data = {
-            id: baseSymbol,
-            symbol: baseSymbol,
-            name: info.name,
-            image: BASE_URL + val.IMAGEURL,
-            current_price: val.PRICE,
-            market_cap: val.MKTCAP,
-            price_change_percentage_24h: val.CHANGEPCT24HOUR,
-          };
-          dataArray.push(data);
-        });
-      });
-      return dataArray;
-    } else {
-      throw new Error("No price data available");
-    }
-  } catch (e) {
-    return [];
-  }
 };
 
 const fetchCryptoData = async () => {
   try {
     loading.value = true;
-    cryptoList.value = await transformData();
-    getChartData();
-    loading.value = false;
+    if (cryptoList.value.length >= 1) {
+      getChartData();
+      loading.value = false;
+    }
   } catch (e) {
-    throw new Error("No news data available");
+    throw new Error("No cryptodata available");
   }
 };
 
@@ -224,7 +182,7 @@ onMounted(() => {
         <div class="news">
           <div v-for="news in newsList" :key="news.id" class="post-item clearfix">
             <img :src="news.image" :alt="news.title" />
-            <h4><a href="/">{{ news.title }}</a></h4>
+            <h4>{{ news.title }}</h4>
             <p>
               {{ news.body }}
             </p>
@@ -239,4 +197,6 @@ onMounted(() => {
 
 </template>
 
-<style scoped></style>
+<style scoped>
+
+</style>

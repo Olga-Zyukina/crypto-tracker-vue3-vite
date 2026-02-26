@@ -13,15 +13,15 @@ const startInterval = async () => {
   }
   interval = setInterval(() => {
     rootStore.getNews();
-    rootStore.getSymbolFullData();
+    rootStore.getCryptoData();
   }, API_CONFIG.REFRESH_INTERVAL);
 };
 
 startInterval();
 
-onMounted(() => {
+onMounted(() => { 
   rootStore.getNews();
-  rootStore.getSymbolFullData();
+  rootStore.getCryptoData();
 })
 </script>
 
