@@ -19,7 +19,7 @@ const chartData = ref<ChartData[]>([]);
 const getChartData = () => {
   chartData.value = cryptoList.value
     .filter((item: { market_cap: number; }) => item.market_cap < 200000000000 && item.market_cap > 10000000000)
-    .map((crypto) => ({
+    .map((crypto: { id: string; market_cap: number; }) => ({
       id: crypto.id,
       cap: crypto.market_cap / 1000000
     })
