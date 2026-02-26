@@ -9,7 +9,7 @@ export const useRootStore = defineStore("root", () => {
   const news = ref<[] | null>(null);
   const error = ref<ErrorData | null>(null);
   const symbolFullData = ref<[] | null>(null);
-  const cryptoList = ref<CryptoData[]>([]);
+  const cryptoList = ref<CryptoData[] | any>([]);
 
   async function getNews() {
     const data = await commonService.getNews();

@@ -15,7 +15,7 @@ const cryptoList = computed(() => rootStore.cryptoList);
 const loading = ref< boolean >(true);
 const lastUpdateTime = ref< Date | null >(null);
 
-const tableData: TableData = { headings: ["id", "name", "market_cap", "current_price", "price_change_percentage_24h"], data: [], }
+let tableData: TableData = { headings: ["id", "name", "market_cap", "current_price", "price_change_percentage_24h"], data: [], }
 
 const totalMarketCap = computed(() => {
   return cryptoList.value.reduce(
@@ -103,6 +103,7 @@ const fetchCryptoData = async () => {
 
 const getTableData = () => {
   if (cryptoList.value.length > 1) {
+    tableData.data = [];
     for (let i = 0; i < cryptoList.value.length; i++) {
       tableData.data[i] = [];
       for (let p of ["id", "name", "market_cap", "current_price", "price_change_percentage_24h"]) {
