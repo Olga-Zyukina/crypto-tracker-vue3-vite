@@ -16,8 +16,9 @@ import RightSide from "../components/RightSide.vue";
 const rootStore = useRootStore();
 const symbolFullData = computed(() => rootStore.symbolFullData);
 const error = computed(() => rootStore.error);
+const cryptoList = computed(() => rootStore.cryptoList);
 
-const cryptoList = ref<CryptoData[]>([]);
+// const cryptoList = ref<CryptoData[]>([]);
 const loading = ref(true);
 
 const topPrice = computed(() => {
@@ -45,50 +46,12 @@ const formatPrice = (value: number) => {
   }).format(value);
 };
 
-const transformData = async (): Promise<CryptoData[]> => {
-  try {
-    const dataArray:
-      | PromiseLike<CryptoData[]>
-      | {
-        id: any;
-        symbol: any;
-        name: string;
-        image: string;
-        current_price: any;
-        market_cap: any;
-        price_change_percentage_24h: any;
-      }[] = [];
-    if (symbolFullData.value) {
-      Object.values(symbolFullData.value).forEach((value: any) => {
-        Object.values(value).forEach((val: any) => {
-          const baseSymbol = val.FROMSYMBOL;
-          const info = CRYPTO_INFO[baseSymbol];
-          let data = {
-            id: baseSymbol,
-            symbol: baseSymbol,
-            name: info.name,
-            image: BASE_URL + val.IMAGEURL,
-            current_price: val.PRICE,
-            market_cap: val.MKTCAP,
-            price_change_percentage_24h: val.CHANGEPCT24HOUR,
-          };
-          dataArray.push(data);
-        });
-      });
-      return dataArray;
-    } else {
-      throw new Error("No price data available");
-    }
-  } catch (e) {
-    console.error('API Error:', e);
-    return [];
-  }
-};
-
 const fetchCryptoData = async () => {
   try {
     loading.value = true;
-    cryptoList.value = await transformData();
+    if (cryptoList.value.length >= 1) {
+      loading.value = false;
+    }
     loading.value = false;
   } catch (e) {
     console.error('API Error:', e);
@@ -140,11 +103,9 @@ onMounted(async () => {
                   <tbody>
                     <tr v-for="crypto in topPrice" :key="crypto.id">
                       <th scope="row">
-                        <a href="/"><img :src="crypto.image" :alt="crypto.name" /></a>
+                        <img :src="crypto.image" :alt="crypto.name" />
                       </th>
-                      <td>
-                        <a href="/">{{ crypto.name }}</a>
-                      </td>
+                      <td class="table-row-color">{{ crypto.name }}</td>
                       <td class="fw-bold">{{ formatPrice(crypto.current_price) }}</td>
                       <td>{{ crypto.price_change_percentage_24h.toFixed(2) }}%</td>
                       <td>{{ formatMarketCap(crypto.market_cap) }}</td>

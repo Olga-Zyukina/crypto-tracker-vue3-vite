@@ -17,8 +17,8 @@ const $props = defineProps({
   data: { type: Object, default: () => { } }
 });
 
-let chartLabels: any = [];
-let chartData: any = [];
+let chartLabels: Array<string | number> = [];
+let chartData: Array<number> = [];
 let data = {
   labels: chartLabels,
   datasets: [{
@@ -34,9 +34,9 @@ const options = {
 };
 
 const updateRadarData = () => {
-  chartLabels.length = 0
-  chartData.length = 0
-  $props.data.forEach((item: any) => {
+  chartLabels.length = 0;
+  chartData.length = 0;
+  $props.data.forEach((item: { id: string | number; cap: string; }) => {
     chartLabels.push(item.id);
     chartData.push(parseInt(item.cap));
   });
@@ -45,7 +45,7 @@ const updateRadarData = () => {
     datasets: [{
       label: 'MarketCap, $1M',
       data: chartData,
-    backgroundColor: ['#01befe', '#ffdd00', '#ff7d00', '#ff006d', '#adff02', '#8f00ff', '#ffdd00'],
+      backgroundColor: ['#01befe', '#ffdd00', '#ff7d00', '#ff006d', '#adff02', '#8f00ff', '#ffdd00'],
 
     }]
   };

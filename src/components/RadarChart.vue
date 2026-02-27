@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { watch } from "vue";
+import type { RadarChartData } from "../types/index";
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -24,9 +25,9 @@ const $props = defineProps({
   data: { type: Object, default: () => { } }
 });
 
-let chartLabels: any = [];
-let chartData: any = [];
-let data = {
+let chartLabels: Array<Date> = [];
+let chartData: Array<number> = [];
+let data: RadarChartData = {
   labels: chartLabels,
   datasets: [{
     label: 'MarketCap, $1M',
@@ -48,7 +49,7 @@ const options = {
 const updateRadarData = () => {
   chartLabels.length = 0
   chartData.length = 0
-  $props.data.forEach((item: any) => {
+  $props.data.forEach((item: { id: Date; cap: string; }) => {
     chartLabels.push(item.id);
     chartData.push(parseInt(item.cap));
   });

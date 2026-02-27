@@ -15,7 +15,6 @@ const newsList = ref<NewsData[]>([]);
 const loading = ref<boolean>(true);
 const chartData = ref<ChartData[]>([]);
 
-
 const getChartData = () => {
   chartData.value = cryptoList.value
     .filter((item: { market_cap: number; }) => item.market_cap < 200000000000 && item.market_cap > 10000000000)
@@ -41,8 +40,8 @@ const fetchCryptoData = async () => {
 const fetchNewsData = async () => {
   loading.value = true;
   if (news.value) {
-    Object.values(news.value.slice(0, 5)).forEach((value: any) => {
-      const newsItem: any = {
+    Object.values(news.value.slice(0, 5)).forEach((value: { id: number; imageurl: string; title: string; body: string; }) => {
+      const newsItem = {
         id: value.id,
         image: value.imageurl,
         title: value.title,

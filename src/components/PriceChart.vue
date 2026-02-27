@@ -3,6 +3,7 @@ import { computed, ref, onMounted, onUnmounted, watch } from "vue";
 import axios from "axios";
 import { API_CONFIG } from '../constants/config';
 import { URL_SINGLE_SYMBOL_HISTORY_DAY, URL_SINGLE_SYMBOL_HISTORY_HOUR, URL_SINGLE_SYMBOL_HISTORY_MINUTE } from "../constants/api";
+import type { ChartPriceData } from "../types/index";
 import { Line } from "vue-chartjs";
 import {
   Chart as ChartJS,
@@ -27,16 +28,18 @@ ChartJS.register(
   Legend
 );
 
-let intervalRefresh: any;
 const $props = defineProps({
   id: { type: String, default: "BTC" },
   home: { type: Boolean, default: false }
 });
-const chartData = ref<any>(null);
+
+let intervalRefresh: number;
+let interval: string = '24H';
+let chartData: ChartPriceData | null = null;
+
 const error = ref<string | null>(null);
 const loading = ref(true);
 const selectedInterval = ref<string>("1d");
-const interval = ref<any>('24H');
 
 const intervals = [
   { label: '1H', value: '1h' },
@@ -112,10 +115,10 @@ const options: any = computed<ChartOptions>(() => ({
   },
 }));
 
-const setIntervalValue = (int: any) => {
+const setIntervalValue = (int: string) => {
   selectedInterval.value = int;
-  const getInterval: any = intervals.find(item => item.value === int);
-  interval.value = getInterval.label
+  const getInterval = intervals.find(item => item.value === int);
+  interval = getInterval?.label || '24H';
 };
 
 const getUrl = (interval: string) => {
@@ -144,7 +147,6 @@ const fetchChartData = async () => {
     error.value = null;
     const url = getUrl(selectedInterval.value);
     const limit = getLimit(selectedInterval.value);
-
     const response = await axios.get(
       url,
       {
@@ -156,11 +158,11 @@ const fetchChartData = async () => {
       }
     );
     if (response.data) {
-      const prices = response.data.Data.Data.map((candle: any) => ({
+      const prices = response.data.Data.Data.map((candle: { time: number; close: string; }) => ({
         timestamp: candle.time * 1000,
         price: parseFloat(candle.close),
       }));
-      chartData.value = {
+      chartData = {
         labels: prices.map((price: { timestamp: string | number | Date; }) => {
           const date = new Date(price.timestamp);
           switch (selectedInterval.value) {
@@ -179,7 +181,7 @@ const fetchChartData = async () => {
         datasets: [
           {
             label: "BITCOIN",
-            data: prices.map((price: { price: any }) => price.price),
+            data: prices.map((price: { price: number }) => price.price),
             backgroundColor: "rgb(255, 255, 255, 0)",
             borderColor: "#0d6efd",
             borderWidth: 2,

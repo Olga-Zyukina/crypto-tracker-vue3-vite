@@ -94,7 +94,6 @@ const fetchCryptoData = async () => {
     lastUpdateTime.value = new Date();
     if (cryptoList.value.length >= 1) {
       loading.value = false;
-
     }
   } catch (e) {
     throw new Error("No news data available");
@@ -108,13 +107,11 @@ const getTableData = () => {
       tableData.data[i] = [];
       for (let p of ["id", "name", "market_cap", "current_price", "price_change_percentage_24h"]) {
         if (cryptoList.value[i].hasOwnProperty(p)) {
-          if (p === "price_change_percentage_24h") {
+          if (p === "price_change_percentage_24h" ) {
             tableData.data[i].push(cryptoList.value[i][p].toFixed(2));
           } else {
             tableData.data[i].push(cryptoList.value[i][p]);
           }
-        } else {
-          tableData.data[i].push('');
         }
       }
     }

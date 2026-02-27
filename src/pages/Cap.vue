@@ -1,71 +1,30 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
 import { useRootStore } from "../stores/root";
+import type { TableData } from "../types/index";
 import { commonService } from "../services";
+import { DataTable } from "simple-datatables";
 
-import type { CryptoData } from "../types/index";
-import { BASE_URL } from "../constants/api";
-import { CRYPTO_INFO } from "../constants/utils";
 import AppHeader from "../components/Header.vue";
 import AppSidebar from "../components/Sidebar.vue";
 import AppMain from "../components/Main.vue";
 import AppFooter from "../components/Footer.vue";
 import RightSide from "../components/RightSide.vue";
-import { DataTable } from "simple-datatables";
 
 const rootStore = useRootStore();
 const symbolFullData = computed(() => rootStore.symbolFullData);
 const error = computed(() => rootStore.error);
+const cryptoList = computed(() => rootStore.cryptoList);
 
-const cryptoList = ref<CryptoData[] | any>([]);
 const loading = ref(true);
-let tableData: any = {};
-
-const transformData = async (): Promise<CryptoData[]> => {
-  try {
-    const dataArray:
-      | PromiseLike<CryptoData[]>
-      | {
-          id: any;
-          symbol: any;
-          name: string;
-          image: string;
-          current_price: any;
-          market_cap: any;
-          price_change_percentage_24h: any;
-        }[] = [];
-    if (symbolFullData.value) {
-      Object.values(symbolFullData.value).forEach((value: any) => {
-        Object.values(value).forEach((val: any) => {
-          const baseSymbol = val.FROMSYMBOL;
-          const info = CRYPTO_INFO[baseSymbol];
-          let data = {
-            id: baseSymbol,
-            symbol: baseSymbol,
-            name: info.name,
-            image: BASE_URL + val.IMAGEURL,
-            current_price: val.PRICE,
-            market_cap: val.MKTCAP,
-            price_change_percentage_24h: val.CHANGEPCT24HOUR,
-          };
-          dataArray.push(data);
-        });
-      });
-      return dataArray;
-    } else {
-      throw new Error("No price data available");
-    }
-  } catch (e) {
-    console.error('API Error:', e);
-    return [];
-  }
-};
+let tableData: TableData = { headings: ["id", "name", "market_cap", "current_price", "price_change_percentage_24h"], data: [], }
 
 const fetchCryptoData = async () => {
   try {
     loading.value = true;
-    cryptoList.value = await transformData();
-    getTableData();
+    if (cryptoList.value.length >= 1) {
+      loading.value = false;
+    }
     loading.value = false;
   } catch (e) {
     console.error('API Error:', e);
@@ -73,45 +32,43 @@ const fetchCryptoData = async () => {
   }
 };
 
-const getTableData = async () => {
-  tableData = {
-    headings: [
-      "Id",
-      "Name",
-      "Cap",
-      "Price",
-      "Price change 24h"
-    ],
-    data: []
-  };
-  // get data for table
-  for (let i = 0; i < cryptoList.value.length; i++) {
-    tableData.data[i] = [];
-    for (let p of ["id", "name", "market_cap", "current_price", "price_change_percentage_24h"]) {
-      if (cryptoList.value[i].hasOwnProperty(p)) {
-        if (p === "price_change_percentage_24h") {
-          tableData.data[i].push(cryptoList.value[i][p].toFixed(2));
-        } else {
-          tableData.data[i].push(cryptoList.value[i][p]);
+const getTableData = () => {
+  if (cryptoList.value.length > 1) {
+    tableData.data = [];
+    for (let i = 0; i < cryptoList.value.length; i++) {
+      tableData.data[i] = [];
+      for (let p of ["id", "name", "market_cap", "current_price", "price_change_percentage_24h"]) {
+        if (cryptoList.value[i].hasOwnProperty(p)) {
+          if (p === "price_change_percentage_24h" ) {
+            tableData.data[i].push(cryptoList.value[i][p].toFixed(2));
+          } else {
+            tableData.data[i].push(cryptoList.value[i][p]);
+          }
         }
-      } else {
-        tableData.data[i].push('');
       }
     }
-  };
-  // remove and create table
+  }
+};
+
+const createTable = () => {
   if (document.querySelector(".cap-title")) {
-    let capTitle: any = document.querySelector(".cap-title");
-    let datatableWrapper: any = document.querySelector(".datatable-wrapper");
+    let capTitle: Element | null = document.querySelector(".cap-title");
+    let datatableWrapper: Element | null = document.querySelector(".datatable-wrapper");
     if (datatableWrapper) {
       datatableWrapper.remove();
     }
     let capTable = document.createElement("table");
     capTable.id = 'datatable';
     capTable.className += 'table table-borderless datatable';
-    capTitle.after(capTable);
+    if (capTitle) {
+      capTitle.after(capTable);
+    }
   }
+};
 
+const createTopMarketCapTable = async () => {
+  getTableData();
+  createTable();
   new DataTable("#datatable", {
     data: tableData,
     perPageSelect: [5, 10, 15, ["All", -1]],
@@ -178,7 +135,8 @@ watch(() => symbolFullData.value, () => {
 
 onMounted(async () => {
   commonService.commonFunction();
-  fetchCryptoData();
+  await fetchCryptoData();
+  await createTopMarketCapTable();
 });
 </script>
 
@@ -190,8 +148,7 @@ onMounted(async () => {
     <template #home>
       <section>
         <div class="row">
-          <div class="col-lg-8">
-            
+          <div class="col-lg-8">         
             <div v-if="loading && !error" class="d-flex align-items-center justify-content-center py-5">
               <div class="spinner-border text-primary" role="status">
               </div>
@@ -200,7 +157,6 @@ onMounted(async () => {
               <p>{{ error.symbolFullData }}</p>
             </div>
             <!-- End Loading and Error States -->
-
             <div v-else class="card top-market-cap overflow-auto">
               <div class="card-body">
                 <h5 class="card-title cap-title">Top Market Cap <span>| All time</span></h5>

@@ -1,4 +1,5 @@
 export interface CryptoData {
+  [key: string]: string | number;
   id: string;
   symbol: string;
   name: string;
@@ -8,8 +9,8 @@ export interface CryptoData {
   price_change_percentage_24h: number;
 }
 export interface TableData {
-  headings: [string, string, string, string, string];
-  data: any;
+  headings: Array<string>;
+  data: Array<Array<number | string>>;
 }
 export interface ErrorData {
   error: boolean;
@@ -17,7 +18,7 @@ export interface ErrorData {
   symbolFullData?: string;
 }
 export interface NewsData {
-  id: string;
+  id: number;
   image: string;
   title: string;
   body: string;
@@ -26,3 +27,30 @@ export interface ChartData {
   id: string;
   cap: number;
 }
+export interface ChartPriceData {
+  labels: Array<Date>;
+  datasets: Array<{
+    label: string;
+    data: Array<number>;
+    backgroundColor: string;
+    borderColor: string;
+    borderWidth: number;
+    pointRadius: number;
+    tension: number;
+    fill: boolean;
+  }>;
+}
+export interface RadarChartData {
+  labels: Array<Date>;
+  datasets: Array<{
+    label: string;
+    data: Array<number>;
+    fill: boolean;
+    backgroundColor: string;
+    borderColor: string;
+    pointBackgroundColor: string;
+    pointBorderColor: string;
+    pointHoverBackgroundColor: string;
+    pointHoverBorderColor: string;
+  }>
+};

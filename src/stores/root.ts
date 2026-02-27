@@ -9,7 +9,7 @@ export const useRootStore = defineStore("root", () => {
   const news = ref<[] | null>(null);
   const error = ref<ErrorData | null>(null);
   const symbolFullData = ref<[] | null>(null);
-  const cryptoList = ref<CryptoData[] | any>([]);
+  const cryptoList = ref<CryptoData[] | []>([]);
 
   async function getNews() {
     const data = await commonService.getNews();
@@ -24,7 +24,7 @@ export const useRootStore = defineStore("root", () => {
     try {
       const dataArray: CryptoData[] = [];
       if (symbolFullData.value) {
-        Object.values(symbolFullData.value).forEach((value: any) => {
+        Object.values(symbolFullData.value).forEach((value) => {
           Object.values(value).forEach((val: any) => {
             const baseSymbol = val.FROMSYMBOL;
             const info = CRYPTO_INFO[baseSymbol];

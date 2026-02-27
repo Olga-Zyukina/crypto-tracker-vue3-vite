@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { CRYPTO_INFO } from "../constants/utils";
-const cryptoList = Object.keys(CRYPTO_INFO).sort((a: any, b: any) => a.toLowerCase().localeCompare(b.toLowerCase()));
+const cryptoList = Object.keys(CRYPTO_INFO).sort((a: string, b: string) => a.toLowerCase().localeCompare(b.toLowerCase()));
 </script>
 
 <template>

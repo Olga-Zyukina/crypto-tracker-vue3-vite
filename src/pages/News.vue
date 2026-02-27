@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
-import { useRootStore } from "../stores/root"
+import { useRootStore } from "../stores/root";
+import type { NewsData } from "../types/index";
 import { commonService } from "../services";
 
 import AppHeader from "../components/Header.vue";
@@ -13,14 +14,14 @@ const rootStore = useRootStore();
 const news = computed(() => rootStore.news);
 const error = computed(() => rootStore.error);
 
-const newsList: any = ref([]);
+const newsList = ref<NewsData[]>([]);
 const loading = ref(true);
 
 const fetchNewsData = async () => {
   loading.value = true;
   if (news.value) {
-    Object.values(news.value.slice(0, 20)).forEach((value: any) => {
-      const newsItem: any = {
+    Object.values(news.value.slice(0, 20)).forEach((value: {id: number; imageurl: string; title: string; body: string;}) => {
+      const newsItem = {
         id: value.id,
         image: value.imageurl,
         title: value.title,
@@ -65,7 +66,7 @@ onMounted(async () => {
                 <div class="news">
                   <div v-for="news in newsList" :key="news.id" class="post-item clearfix">
                     <img :src="news.image" :alt="news.title" />
-                    <h4><a href="/">{{ news.title }}</a></h4>
+                    <h4>{{ news.title }}</h4>
                     <p>
                       {{ news.body }}
                     </p>
