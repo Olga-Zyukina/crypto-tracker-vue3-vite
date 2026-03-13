@@ -20,12 +20,12 @@ const loading = ref(true);
 const fetchNewsData = async () => {
   loading.value = true;
   if (news.value) {
-    Object.values(news.value.slice(0, 20)).forEach((value: {id: number; imageurl: string; title: string; body: string;}) => {
+    Object.values(news.value.slice(0, 20)).forEach((value: {ID: number; IMAGE_URL: string; TITLE: string; BODY: string;}) => {
       const newsItem = {
-        id: value.id,
-        image: value.imageurl,
-        title: value.title,
-        body: value.body.slice(0, 150) + "..."
+        id: value.ID,
+        image: value.IMAGE_URL,
+        title: value.TITLE,
+        body: value.BODY.slice(0, 150) + "..."
       };
       newsList.value.push(newsItem)
     })
