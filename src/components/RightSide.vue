@@ -12,7 +12,7 @@ const symbolFullData = computed(() => rootStore.symbolFullData);
 const cryptoList = computed(() => rootStore.cryptoList);
 
 const newsList = ref<NewsData[]>([]);
-const loading = ref<boolean>(true);
+const loading = ref<boolean>(false);
 const chartData = ref<ChartData[]>([]);
 
 const getChartData = () => {
@@ -38,7 +38,6 @@ const fetchCryptoData = async () => {
 };
 
 const fetchNewsData = async () => {
-  loading.value = true;
   if (news.value) {
     Object.values(news.value.slice(0, 5)).forEach((value: { id: number; imageurl: string; title: string; body: string; }) => {
       const newsItem = {
@@ -49,7 +48,6 @@ const fetchNewsData = async () => {
       };
       newsList.value.push(newsItem);
     });
-    loading.value = false;
   } else {
     throw new Error("No news data available");
   }
@@ -60,7 +58,7 @@ const startFetching = () => {
   fetchNewsData();
 };
 
-watch(() => [news.value, symbolFullData.value], () => {
+watch(() => [news.value, symbolFullData.value, cryptoList.value], () => {
   startFetching();
 });
 

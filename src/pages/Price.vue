@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useRootStore } from "../stores/root";
 import { commonService } from "../services";
 
@@ -10,7 +10,6 @@ import AppFooter from "../components/Footer.vue";
 import RightSide from "../components/RightSide.vue";
 
 const rootStore = useRootStore();
-const symbolFullData = computed(() => rootStore.symbolFullData);
 const error = computed(() => rootStore.error);
 const cryptoList = computed(() => rootStore.cryptoList);
 
@@ -54,10 +53,6 @@ const fetchCryptoData = async () => {
   }
 };
 
-watch(() => symbolFullData.value, () => {
-  fetchCryptoData();
-});
-
 onMounted(async () => {
   commonService.commonFunction();
   fetchCryptoData();
@@ -76,9 +71,6 @@ onMounted(async () => {
             <div v-if="loading && !error" class="d-flex align-items-center justify-content-center py-5">
               <div class="spinner-border text-primary" role="status">
               </div>
-            </div>
-            <div v-if="error && error.symbolFullData" class="danger">
-              <p>{{ error.symbolFullData }}</p>
             </div>
             <!-- End Loading and Error States -->
 
