@@ -8,6 +8,9 @@ const error = ref<ErrorData | null>(null);
 const symbols = Object.keys(CRYPTO_INFO).join(",");
 
 export const getNews = async () => {
+  if (error?.value?.news) {
+    error.value.news = "";
+  }
   try {
     const data = await axios.get(URL_LATEST_NEWS_ARTICLES);
     return data?.data.Data;
@@ -30,6 +33,9 @@ export const getNews = async () => {
 };
 
 export const getCryptoData = async () => {
+    if (error?.value?.symbolFullData) {
+    error.value.symbolFullData = "";
+  }
   try {
     const data = await axios.get(
       URL_MULTIPLE_SYMBOL_FULL_DATA, {

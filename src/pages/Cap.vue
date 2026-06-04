@@ -149,7 +149,7 @@ onMounted(async () => {
       <section>
         <div class="row">
           <div class="col-lg-8">         
-            <div v-if="loading && !error" class="d-flex align-items-center justify-content-center py-5">
+            <div v-if="loading && !error?.symbolFullData" class="d-flex align-items-center justify-content-center py-5">
               <div class="spinner-border text-primary" role="status">
               </div>
             </div>

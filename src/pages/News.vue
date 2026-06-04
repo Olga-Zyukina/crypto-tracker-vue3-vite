@@ -56,7 +56,7 @@ onMounted(async () => {
               <div class="spinner-border text-primary" role="status">
               </div>
             </div>
-            <div v-if="error" class="danger">
+            <div v-if="error?.news" class="danger">
               <p>{{ error.news }}</p>
             </div>
             <!-- End Loading and Error States -->

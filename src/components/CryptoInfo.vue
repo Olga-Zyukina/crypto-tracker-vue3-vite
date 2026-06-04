@@ -215,7 +215,7 @@ onMounted(() => {
 <template>
   <section class="section dashboard">
 
-    <div v-if="loading && !error" class="d-flex align-items-center justify-content-center py-5">
+    <div v-if="loading && !error?.symbolFullData" class="d-flex align-items-center justify-content-center py-5">
       <div class="spinner-border text-primary" role="status">
       </div>
     </div>
@@ -283,7 +283,7 @@ onMounted(() => {
 
           <!-- Top Losers (24h) -->
           <div class="col-xxl-4 col-xl-12">
-            <div v-if="error" class="danger">
+            <div v-if="error?.symbolFullData" class="danger">
               <p v-if="error && error.symbolFullData">{{ error.symbolFullData }}</p>
             </div>
             <!-- End Error States -->
@@ -316,7 +316,7 @@ onMounted(() => {
 
           <!-- Top Market Cap -->
           <div class="col-12">
-            <div v-if="error" class="danger">
+            <div v-if="error?.symbolFullData" class="danger">
               <p v-if="error && error.symbolFullData">{{ error.symbolFullData }}</p>
             </div>
             <!-- End Error States -->
@@ -330,7 +330,7 @@ onMounted(() => {
 
           <!-- Top Price -->
           <div class="col-12">
-            <div v-if="error" class="danger">
+            <div v-if="error?.symbolFullData" class="danger">
               <p v-if="error && error.symbolFullData">{{ error.symbolFullData }}</p>
             </div>
             <!-- End Error States -->
