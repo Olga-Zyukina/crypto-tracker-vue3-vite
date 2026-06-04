@@ -39,6 +39,7 @@ const fetchCryptoData = async () => {
 
 const fetchNewsData = async () => {
   if (news.value) {
+    newsList.value.length = 0;
     Object.values(news.value.slice(0, 5)).forEach((value: { ID: number; IMAGE_URL: string; TITLE: string; BODY: string; }) => {
       const newsItem = {
         id: value.ID,
