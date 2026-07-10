@@ -1,67 +1,67 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from "vue";
-import { useRootStore } from "../stores/root";
-import type { NewsData } from "../types/index";
-import { commonService } from "../services";
+// import { computed, onMounted, ref, watch } from "vue";
+// import { useRootStore } from "../stores/root";
+// import type { NewsData } from "../types/index";
+// import { commonService } from "../services";
 
-import AppHeader from "../components/Header.vue";
-import AppSidebar from "../components/Sidebar.vue";
-import AppMain from "../components/Main.vue";
-import AppFooter from "../components/Footer.vue";
-import RightSide from "../components/RightSide.vue";
+// import AppHeader from "../components/Header.vue";
+// import AppSidebar from "../components/Sidebar.vue";
+// import AppMain from "../components/Main.vue";
+// import AppFooter from "../components/Footer.vue";
+// import RightSide from "../components/RightSide.vue";
 
-const rootStore = useRootStore();
-const news = computed(() => rootStore.news);
-const error = computed(() => rootStore.error);
+// const rootStore = useRootStore();
+// const news = computed(() => rootStore.news);
+// const error = computed(() => rootStore.error);
 
-const newsList = ref<NewsData[]>([]);
-const loading = ref(true);
+// const newsList = ref<NewsData[]>([]);
+// const loading = ref(true);
 
-const fetchNewsData = async () => {
-  loading.value = true;
-  if (news.value) {
-    newsList.value.length = 0;
-    Object.values(news.value).forEach((value: {ID: number; IMAGE_URL: string; TITLE: string; BODY: string;}) => {
-      const newsItem = {
-        id: value.ID,
-        image: value.IMAGE_URL,
-        title: value.TITLE,
-        body: value.BODY.slice(0, 700) + "..."
-      };
-      newsList.value.push(newsItem);
-    })
-    loading.value = false;
-  } else {
-    throw new Error("No news data available");
-  }
-}
+// const fetchNewsData = async () => {
+//   loading.value = true;
+//   if (news.value) {
+//     newsList.value.length = 0;
+//     Object.values(news.value).forEach((value: {ID: number; IMAGE_URL: string; TITLE: string; BODY: string;}) => {
+//       const newsItem = {
+//         id: value.ID,
+//         image: value.IMAGE_URL,
+//         title: value.TITLE,
+//         body: value.BODY.slice(0, 700) + "..."
+//       };
+//       newsList.value.push(newsItem);
+//     })
+//     loading.value = false;
+//   } else {
+//     throw new Error("No news data available");
+//   }
+// }
 
-watch(() => [news.value, error.value], fetchNewsData);
+// watch(() => [news.value, error.value], fetchNewsData);
 
-onMounted(async () => {
-  commonService.commonFunction();
-  fetchNewsData();
-});
+// onMounted(async () => {
+//   commonService.commonFunction();
+//   fetchNewsData();
+// });
 </script>
 
 <template>
-  <AppHeader />
-  <AppSidebar />
-  <AppMain>
+  <!-- <AppHeader /> -->
+  <!-- <AppSidebar /> -->
+  <!-- <AppMain>
     <template #title>News</template>
     <template #home>
       <section>
         <div class="row">
-          <div class="col-lg-8">
-            <div v-if="loading && !error" class="d-flex align-items-center justify-content-center py-5">
+          <div class="col-lg-8"> -->
+            <!-- <div v-if="loading && !error" class="d-flex align-items-center justify-content-center py-5">
               <div class="spinner-border text-primary" role="status">
               </div>
             </div>
             <div v-if="error?.news" class="danger">
               <p>{{ error.news }}</p>
-            </div>
+            </div> -->
             <!-- End Loading and Error States -->
-            <div v-else class="card">
+            <!-- <div v-else class="card">
               <div class="card-body pb-0">
                 <h5 class="card-title">Latest News Articles <span>| All time</span></h5>
                 <div class="news">
@@ -74,23 +74,23 @@ onMounted(async () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </div> -->
+          <!-- </div> -->
           <!-- End Left side columns -->
-          <div class="col-lg-4">
+          <!-- <div class="col-lg-4">
             <RightSide />
-          </div>
+          </div> -->
           <!-- End Right side columns -->
-        </div>
+        <!-- </div> -->
         <!-- End News Grid -->
-      </section>
+      <!-- </section>
     </template>
-  </AppMain>
-  <AppFooter />
+  </AppMain> -->
+  <!-- <AppFooter /> -->
   <!-- Back to top button -->
-  <a href="/" class="back-to-top d-flex align-items-center justify-content-center">
+  <!-- <a href="/" class="back-to-top d-flex align-items-center justify-content-center">
     <i class="bi bi-arrow-up-short"></i>
-  </a>
+  </a> -->
 </template>
 
 <style scoped></style>
