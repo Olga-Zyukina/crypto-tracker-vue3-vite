@@ -27,6 +27,7 @@ The application extracts current data from the **Cryptocompare API** and provide
 -  Chart.js
 -  Vue-chartjs
 -  Simple-datatables
+-  Docker
 
 ## Live Demo
 
@@ -64,5 +65,23 @@ src/
 - Clean and modern design;
 - Adaptive layout for all screen sizes;
 - Smooth transitions and animations.
+
+## Development
+- Make sure you have Node.js installed.
+- Clone the repo to your machine.
+- Install all dependencies
+`npm install`
+- Development:
+`npm run dev`
+- Production:
+`npm run build`
+
+## Docker
+- Building image
+`docker build .`
+- Building images & run containers
+`docker compose up`<br/>
+Open browser in Development mode: localhost:5173<br/>
+Open browser in Production mode: localhost:5174
 
 <div><img src="https://github.com/Olga-Zyukina/crypto-tracker-vue3-vite/blob/master/Screenshot.png" title="crypto-tracker-vue3-vite" alt="crypto-tracker-vue3-vite"/></div>
