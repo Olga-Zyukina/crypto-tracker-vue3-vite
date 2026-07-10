@@ -1,0 +1,25 @@
+services:
+  vuejs-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5174:8080"
+
+  vuejs-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5173:5173"
+    develop:
+      watch:
+        - path: ./src
+          target: /crypto-tracker-vue3-vite/src
+          action: sync
+        - path: ./package.json
+          target: /crypto-tracker-vue3-vite/package.json
+          action: restart
+        - path: ./vite.config.js
+          target: /crypto-tracker-vue3-vite/vite.config.js
+          action: restart

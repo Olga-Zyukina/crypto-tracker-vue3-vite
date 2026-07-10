@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.vscode
+.gitignore
+.dockerignore
+README.md
+Screenshot.png
