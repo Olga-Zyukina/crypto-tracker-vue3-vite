@@ -9,5 +9,5 @@ export const ROUTES_PATHS = {
   CHART: '/chart/:id',
   CAP: '/cap',
   PRICE: '/price',
-  NEWS: '/news',
+  // NEWS: '/news',
 }

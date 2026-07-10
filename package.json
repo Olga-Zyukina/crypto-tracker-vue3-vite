@@ -9,21 +9,22 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "axios": "^1.9.0",
-    "bootstrap": "^5.3.6",
-    "chart.js": "^4.4.9",
-    "date-fns": "^4.1.0",
-    "pinia": "^3.0.3",
-    "simple-datatables": "^10.0.0",
+    "axios": "^1.18.1",
+    "bootstrap": "^5.3.8",
+    "chart.js": "^4.5.1",
+    "date-fns": "^4.4.0",
+    "pinia": "^3.0.4",
+    "simple-datatables": "^10.2.0",
     "vue": "^3.5.13",
-    "vue-chartjs": "^5.3.2",
-    "vue-router": "^4.5.1"
+    "vue-chartjs": "^5.3.4",
+    "vue-router": "^4.6.4"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.2.3",
+    "@vitejs/plugin-vue": "^5.2.4",
     "@vue/tsconfig": "^0.7.0",
     "typescript": "~5.8.3",
-    "vite": "^6.3.5",
-    "vue-tsc": "^2.2.8"
+    "vite": "^6.4.3",
+    "vite-plugin-vue-devtools": "^8.1.5",
+    "vue-tsc": "^2.2.12"
   }
 }

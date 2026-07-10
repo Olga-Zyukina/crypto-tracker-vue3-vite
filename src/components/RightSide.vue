@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
 import { useRootStore } from "../stores/root";
-import type { NewsData, ChartData } from "../types/index";
+// import type { NewsData, ChartData } from "../types/index";
+import type { ChartData } from "../types/index";
 import RadarChart from "./RadarChart.vue";
 import DoughnutChart from "./DoughnutChart.vue";
 
 const rootStore = useRootStore();
-const news = computed(() => rootStore.news);
+// const news = computed(() => rootStore.news);
 const error = computed(() => rootStore.error);
 const symbolFullData = computed(() => rootStore.symbolFullData);
 const cryptoList = computed(() => rootStore.cryptoList);
 
-const newsList = ref<NewsData[]>([]);
+// const newsList = ref<NewsData[]>([]);
 const loading = ref<boolean>(false);
 const chartData = ref<ChartData[]>([]);
 
@@ -37,32 +38,34 @@ const fetchCryptoData = async () => {
   }
 };
 
-const fetchNewsData = async () => {
-  if (news.value) {
-    newsList.value.length = 0;
-    Object.values(news.value.slice(0, 5)).forEach((value: { ID: number; IMAGE_URL: string; TITLE: string; BODY: string; }) => {
-      const newsItem = {
-        id: value.ID,
-        image: value.IMAGE_URL,
-        title: value.TITLE,
-        body: value.BODY.slice(0, 150) + "..."
-      };
-      newsList.value.push(newsItem);
-    });
-  } else {
-    throw new Error("No news data available");
-  }
-};
+// const fetchNewsData = async () => {
+//   if (news.value) {
+//     newsList.value.length = 0;
+//     Object.values(news.value.slice(0, 5)).forEach((value: { ID: number; IMAGE_URL: string; TITLE: string; BODY: string; }) => {
+//       const newsItem = {
+//         id: value.ID,
+//         image: value.IMAGE_URL,
+//         title: value.TITLE,
+//         body: value.BODY.slice(0, 150) + "..."
+//       };
+//       newsList.value.push(newsItem);
+//     });
+//   } else {
+//     throw new Error("No news data available");
+//   }
+// };
 
 const startFetching = () => {
   fetchCryptoData();
-  fetchNewsData();
+  // fetchNewsData();
 };
 
-watch(() => [news.value, symbolFullData.value, cryptoList.value], () => {
+// watch(() => [news.value, symbolFullData.value, cryptoList.value], () => {
+//   startFetching();
+// });
+watch(() => [symbolFullData.value, cryptoList.value], () => {
   startFetching();
 });
-
 onMounted(() => {
   startFetching();
 });
@@ -169,12 +172,12 @@ onMounted(() => {
     </div>
     <!-- End SymbolFullData Chart -->
 
-    <div v-if="error && error.news" class="danger">
+    <!-- <div v-if="error && error.news" class="danger">
       <p v-if="error.news">{{ error.news }}</p>
-    </div>
+    </div> -->
     <!-- End Error News States -->
 
-    <div v-else class="card">
+    <!-- <div v-else class="card">
       <div class="card-body pb-0">
         <h5 class="card-title">Latest News Articles <span>| All time</span></h5>
         <div class="news">
@@ -187,7 +190,7 @@ onMounted(() => {
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- End Latest News Articles -->
 
   </div>

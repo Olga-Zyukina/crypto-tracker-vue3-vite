@@ -17,12 +17,12 @@ export interface ErrorData {
   news?: string;
   symbolFullData?: string;
 }
-export interface NewsData {
-  id: number;
-  image: string;
-  title: string;
-  body: string;
-}
+// export interface NewsData {
+//   id: number;
+//   image: string;
+//   title: string;
+//   body: string;
+// }
 export interface ChartData {
   id: string;
   cap: number;

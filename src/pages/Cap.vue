@@ -28,7 +28,7 @@ const fetchCryptoData = async () => {
     loading.value = false;
   } catch (e) {
     console.error('API Error:', e);
-    throw new Error("No news data available");
+    throw new Error("No data available");
   }
 };
 
@@ -38,6 +38,7 @@ const getTableData = () => {
     for (let i = 0; i < cryptoList.value.length; i++) {
       tableData.data[i] = [];
       for (let p of ["id", "name", "market_cap", "current_price", "price_change_percentage_24h"]) {
+                  // console.log(p)
         if (cryptoList.value[i].hasOwnProperty(p)) {
           if (p === "price_change_percentage_24h" ) {
             tableData.data[i].push(cryptoList.value[i][p].toFixed(2));

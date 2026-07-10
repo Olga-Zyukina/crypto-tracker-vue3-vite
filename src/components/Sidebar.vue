@@ -44,13 +44,13 @@ const cryptoList = Object.keys(CRYPTO_INFO).sort((a: string, b: string) => a.toL
       </li>
       <!-- End PriceGainers -->
 
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <RouterLink :to="{ name: 'news' }" class="nav-link collapsed" active-class="active">
           <i class="bi bi-bar-chart"></i>
           <span>CryptoNews</span>
         </RouterLink>
-      </li>
-      <!-- End Charts Nav -->
+      </li> -->
+      <!-- End CryptoNews Nav -->
 
       <li class="nav-heading">Pages</li>
 

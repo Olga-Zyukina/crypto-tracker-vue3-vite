@@ -10,7 +10,7 @@ import Error_404 from '../pages/Error-404.vue'
 import Chart from '../pages/Chart.vue'
 import Cap from '../pages/Cap.vue'
 import Price from '../pages/Price.vue'
-import News from '../pages/News.vue'
+// import News from '../pages/News.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -67,11 +67,11 @@ const router = createRouter({
       name: 'price',
       component: Price
     },
-    {
-      path: ROUTES_PATHS.NEWS,
-      name: 'news',
-      component: News
-    },
+    // {
+    //   path: ROUTES_PATHS.NEWS,
+    //   name: 'news',
+    //   component: News
+    // },
   ]
 })
 

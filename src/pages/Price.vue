@@ -49,7 +49,7 @@ const fetchCryptoData = async () => {
     loading.value = false;
   } catch (e) {
     console.error('API Error:', e);
-    throw new Error("No news data available");
+    throw new Error("No data available");
   }
 };
 

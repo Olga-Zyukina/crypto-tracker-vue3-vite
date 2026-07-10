@@ -2,7 +2,9 @@
 import { computed, ref, onMounted, onUnmounted, watch } from "vue";
 import axios from "axios";
 import { API_CONFIG } from '../constants/config';
-import { URL_SINGLE_SYMBOL_HISTORY_DAY, URL_SINGLE_SYMBOL_HISTORY_HOUR, URL_SINGLE_SYMBOL_HISTORY_MINUTE } from "../constants/api";
+import { URL_SINGLE_SYMBOL_HISTORY } from "../constants/api";
+import { CRYPTO_INFO } from "../constants/utils";
+
 import type { ChartPriceData } from "../types/index";
 import { Line } from "vue-chartjs";
 import {
@@ -32,6 +34,8 @@ const $props = defineProps({
   id: { type: String, default: "BTC" },
   home: { type: Boolean, default: false }
 });
+const coin = CRYPTO_INFO[$props.id].id || 'bitcoin';
+const URL_SINGLE_SYMBOL_HISTORY_COIN = `${URL_SINGLE_SYMBOL_HISTORY}/${coin}/market_chart`;
 
 let intervalRefresh: number;
 let interval: string = '24H';
@@ -121,23 +125,23 @@ const setIntervalValue = (int: string) => {
   interval = getInterval?.label || '24H';
 };
 
-const getUrl = (interval: string) => {
+const getDays = (interval: string) => {
   switch (interval) {
-    case '1h': return URL_SINGLE_SYMBOL_HISTORY_MINUTE;
-    case '1d': return URL_SINGLE_SYMBOL_HISTORY_HOUR;
-    case '1w': return URL_SINGLE_SYMBOL_HISTORY_DAY;
-    case '1M': return URL_SINGLE_SYMBOL_HISTORY_DAY;
-    default: return URL_SINGLE_SYMBOL_HISTORY_HOUR;
+    case '1h': return 1;
+    case '1d': return 1;
+    case '1w': return 7;
+    case '1M': return 30;
+    default: return 1;
   }
 };
 
-const getLimit = (interval: string) => {
+const getInterval = (interval: string) => {
   switch (interval) {
-    case '1h': return 60;
-    case '1d': return 24;
-    case '1w': return 7;
-    case '1M': return 30;
-    default: return 24;
+    case '1h': return 'hourly';
+    case '1d': return 'hourly';
+    case '1w': return 'daily';
+    case '1M': return 'daily';
+    default: return 'hourly';
   }
 };
 
@@ -145,23 +149,26 @@ const fetchChartData = async () => {
   try {
     loading.value = true;
     error.value = null;
-    const url = getUrl(selectedInterval.value);
-    const limit = getLimit(selectedInterval.value);
+    const url = URL_SINGLE_SYMBOL_HISTORY_COIN;
+    const days = getDays(selectedInterval.value);
+    const interval = getInterval(selectedInterval.value);
     const response = await axios.get(
       url,
       {
         params: {
-          fsym: $props.id,
-          tsym: 'USD',
-          limit: limit
+          vs_currency: 'usd',
+          precision: 10,
+          days: days,
+          interval: interval
         },
       }
     );
     if (response.data) {
-      const prices = response.data.Data.Data.map((candle: { time: number; close: string; }) => ({
-        timestamp: candle.time * 1000,
-        price: parseFloat(candle.close),
+      const prices = response.data.prices.map((candle: any) => ({
+        timestamp: candle[0],
+        price: parseFloat(candle[1]),
       }));
+
       chartData = {
         labels: prices.map((price: { timestamp: string | number | Date; }) => {
           const date = new Date(price.timestamp);

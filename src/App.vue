@@ -12,7 +12,7 @@ const startInterval = async () => {
     clearInterval(interval);
   }
   interval = setInterval(() => {
-    rootStore.getNews();
+    // rootStore.getNews();
     rootStore.getCryptoData();
   }, API_CONFIG.REFRESH_INTERVAL);
 };
@@ -20,7 +20,7 @@ const startInterval = async () => {
 startInterval();
 
 onMounted(() => { 
-  rootStore.getNews();
+  // rootStore.getNews();
   rootStore.getCryptoData();
 })
 </script>

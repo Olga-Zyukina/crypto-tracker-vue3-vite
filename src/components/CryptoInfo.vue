@@ -7,7 +7,7 @@ import RightSide from "./RightSide.vue";
 import { DataTable } from "simple-datatables";
 
 const rootStore = useRootStore();
-const news = computed(() => rootStore.news);
+// const news = computed(() => rootStore.news);
 const error = computed(() => rootStore.error);
 const symbolFullData = computed(() => rootStore.symbolFullData);
 const cryptoList = computed(() => rootStore.cryptoList);
@@ -96,7 +96,7 @@ const fetchCryptoData = async () => {
       loading.value = false;
     }
   } catch (e) {
-    throw new Error("No news data available");
+    throw new Error("No data available");
   }
 };
 
@@ -202,7 +202,10 @@ const startFetching = async () => {
   await createTopMarketCapTable();
 };
 
-watch(() => [news.value, symbolFullData.value], () => {
+// watch(() => [news.value, symbolFullData.value], () => {
+//   startFetching();
+// });
+watch(() => [symbolFullData.value], () => {
   startFetching();
 });
 
