@@ -5,10 +5,7 @@ import type { TableData } from "../types/index";
 import { commonService } from "../services";
 import { DataTable } from "simple-datatables";
 
-import AppHeader from "../components/Header.vue";
-import AppSidebar from "../components/Sidebar.vue";
 import AppMain from "../components/Main.vue";
-import AppFooter from "../components/Footer.vue";
 import RightSide from "../components/RightSide.vue";
 
 const rootStore = useRootStore();
@@ -142,8 +139,6 @@ onMounted(async () => {
 </script>
 
 <template>
-  <AppHeader />
-  <AppSidebar />
   <AppMain>
     <template #title>Market Cap</template>
     <template #home>
@@ -174,11 +169,6 @@ onMounted(async () => {
       </section>
     </template>
   </AppMain>
-  <AppFooter />
-  <!-- Back to top button -->
-  <a href="/" class="back-to-top d-flex align-items-center justify-content-center">
-    <i class="bi bi-arrow-up-short"></i>
-  </a>
 </template>
 
 <style scoped></style>

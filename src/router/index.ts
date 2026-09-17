@@ -4,8 +4,6 @@ import Home from '../pages/Home.vue'
 import UserProfile from '../pages/UserProfile.vue'
 import Faq from '../pages/Faq.vue'
 import Contact from '../pages/Contact.vue'
-import Register from '../pages/Register.vue'
-import Login from '../pages/Login.vue'
 import Error_404 from '../pages/Error-404.vue'
 import Chart from '../pages/Chart.vue'
 import Cap from '../pages/Cap.vue'
@@ -37,17 +35,7 @@ const router = createRouter({
       component: Contact
     },
     {
-      path: ROUTES_PATHS.REGISTER,
-      name: 'register',
-      component: Register
-    },
-    {
-      path: ROUTES_PATHS.LOGIN,
-      name: 'login',
-      component: Login
-    },
-    {
-      path: ROUTES_PATHS.ERROR_404,
+      path:  '/:catchAll(.*)*',
       name: 'error-404',
       component: Error_404
     },

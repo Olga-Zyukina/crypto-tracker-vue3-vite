@@ -34,32 +34,30 @@ const symbols = Object.keys(CRYPTO_INFO).join(",");
 // };
 
 export const getCryptoData = async () => {
-    if (error?.value?.symbolFullData) {
+  if (error?.value?.symbolFullData) {
+    error.value.error = false;
     error.value.symbolFullData = "";
   }
   try {
-    const data = await axios.get(
-      URL_MULTIPLE_SYMBOL_FULL_DATA, {
+    const data = await axios.get(URL_MULTIPLE_SYMBOL_FULL_DATA, {
       params: {
-        vs_currency: 'usd',
-        symbols: symbols
+        vs_currency: "usd",
+        symbols: symbols,
       },
-    }
-    );
+    });
 
     return data?.data;
-
   } catch (e) {
     console.error("API Error:", e);
-    error.value = { error: true, symbolFullData: "" };
+    error.value = { error: true, symbolFullData: "An unexpected error occurred. Please try again" };
     if (axios.isAxiosError(e)) {
       if (!e.response) {
-        error.value.symbolFullData = "Unable to connect to the server. Please try again later";
+        error.value.symbolFullData =
+          "Unable to connect to the server. Please try again later";
       } else {
-        error.value.symbolFullData = "An error occurred while fetching data. Please try again";
+        error.value.symbolFullData =
+          "An error occurred while fetching data. Please try again";
       }
-    } else {
-      error.value.symbolFullData = "An unexpected error occurred. Please try again";
     }
     return error.value;
   }

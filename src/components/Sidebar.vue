@@ -52,23 +52,6 @@ const cryptoList = Object.keys(CRYPTO_INFO).sort((a: string, b: string) => a.toL
       </li> -->
       <!-- End CryptoNews Nav -->
 
-      <li class="nav-heading">Pages</li>
-
-      <li class="nav-item">
-        <RouterLink :to="{ name: 'userprofile' }" class="nav-link collapsed" active-class="active">
-          <i class="bi bi-grid"></i>
-          <span>Profile</span>
-        </RouterLink>
-      </li>
-      <!-- End Profile Page Nav -->
-
-      <li class="nav-item">
-        <RouterLink :to="{ name: 'faq' }" class="nav-link collapsed" active-class="active">
-          <i class="bi bi-question-circle"></i>
-          <span>F.A.Q</span>
-        </RouterLink>
-      </li>
-      <!-- End F.A.Q Page Nav -->
 
       <li class="nav-item">
         <RouterLink :to="{ name: 'contact' }" class="nav-link collapsed" active-class="active">
@@ -78,29 +61,6 @@ const cryptoList = Object.keys(CRYPTO_INFO).sort((a: string, b: string) => a.toL
       </li>
       <!-- End Contact Page Nav -->
 
-      <li class="nav-item">
-        <RouterLink :to="{ name: 'register' }" class="nav-link collapsed" active-class="active">
-          <i class="bi bi-card-list"></i>
-          <span>Register</span>
-        </RouterLink>
-      </li>
-      <!-- End Register Page Nav -->
-
-      <li class="nav-item">
-        <RouterLink :to="{ name: 'register' }" class="nav-link collapsed" active-class="active">
-          <i class="bi bi-box-arrow-in-right"></i>
-          <span>Login</span>
-        </RouterLink>
-      </li>
-      <!-- End Login Page Nav -->
-
-      <li class="nav-item">
-        <RouterLink :to="{ name: 'error-404' }" class="nav-link collapsed" active-class="active">
-          <i class="bi bi-dash-circle"></i>
-          <span>Error 404</span>
-        </RouterLink>
-      </li>
-      <!-- End Error 404 Page Nav -->
     </ul>
   </aside>
 </template>
